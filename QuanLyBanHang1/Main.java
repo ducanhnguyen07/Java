@@ -14,11 +14,9 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         ArrayList<KhachHang> kh = new ArrayList<>();
         ArrayList<MatHang> mh = new ArrayList<>();
-        ArrayList<HoaDon> hd = new ArrayList<>();
         int n = sc.nextInt();
         sc.nextLine();
         for(int i=1; i<=n; i++){
-            
             String tenKH = sc.nextLine();
             String gioiTinh = sc.nextLine();
             String ngaySinh = sc.nextLine();
@@ -55,11 +53,7 @@ public class Main {
                     break;
                 }
             }
-//            hd.add(x);
             System.out.println(x);
         }
-//        for(HoaDon i : hd){
-//            System.out.println(i);
-//        }
     }
 }
