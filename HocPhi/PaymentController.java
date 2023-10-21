@@ -41,12 +41,12 @@ public class PaymentController {
         this.rule = new Rule(maQD, tenQD, donGia);
         
         double amount = 0;
-        for(Subject i : alSubject)
+        for(Subject i : this.alSubject)
             amount += i.getCredit() * rule.getCreditPrice();
         
-        this.invoice = new Invoice(rule);
-        invoice.setSt(student);
-        invoice.setAlSubject(alSubject);
+        this.invoice = new Invoice(this.rule);
+        invoice.setSt(this.student);
+        invoice.setAlSubject(this.alSubject);
         invoice.setAmount(amount);
     }  
 
