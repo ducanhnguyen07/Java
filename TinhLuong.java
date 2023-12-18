@@ -2,24 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package NewNhanVien;
+package newnhanvien1;
 
 import java.util.*;
 /**
  *
  * @author Administrator
  */
-class PhongBan{
-    private String id;
-    private String tenPhong;
+class Phong{
+    protected String idPhong;
+    protected String tenPhong;
 
-    public PhongBan(String id, String tenPhong) {
-        this.id = id;
+    public Phong(String idPhong, String tenPhong) {
+        this.idPhong = idPhong;
         this.tenPhong = tenPhong;
     }
 
-    public String getId() {
-        return id;
+    public String getIdPhong() {
+        return idPhong;
     }
 
     public String getTenPhong() {
@@ -27,48 +27,63 @@ class PhongBan{
     }
 }
 
-class NhanVien{
+class NhanVien extends Phong{
     private String id;
     private String ten;
-    private String tenPB;
-    private int luong;
-    private int soNgay;
+    private double luongCB;
+    private double ngay;
 
-    public NhanVien(String id, String ten, int luong, int soNgay) {
+    public NhanVien(String id, String ten, double luongCB, double ngay, String idPhong, String tenPhong) {
+        super(idPhong, tenPhong);
         this.id = id;
         this.ten = ten;
-        this.luong = luong;
-        this.soNgay = soNgay;
+        this.luongCB = luongCB;
+        this.ngay = ngay;
+    }
+
+    public String getIdPhong() {
+        return idPhong;
+    }
+
+    public void setIdPhong(String idPhong) {
+        this.idPhong = idPhong;
+    }
+
+    public String getTenPhong() {
+        return tenPhong;
+    }
+
+    public void setTenPhong(String tenPhong) {
+        this.tenPhong = tenPhong;
     }
 
     public String getId() {
         return id;
     }
-
-    public void setTenPB(String tenPB) {
-        this.tenPB = tenPB;
-    }
     
-    public int getLuong(){
-        char c = this.id.charAt(0);
-        int idx = Character.valueOf(c) - Character.valueOf('A');
+    private double getLuong(){
+        double luong = this.luongCB * this.ngay;
+        double[][] a = {{10, 12, 14, 20},
+                        {10, 11, 13, 16},
+                        {9, 10, 12, 14},
+                        {8, 9, 11, 13}};
+        int idx = Character.valueOf(this.id.charAt(0)) - Character.valueOf('A');
         int nam = Integer.parseInt(this.id.substring(1, 3));
-        int[][] m = {{10, 12, 14, 20},
-                     {10, 11, 13, 16},
-                     {9, 10, 12, 14},
-                     {8, 9, 11, 13}};
         if(nam <= 3)
-            return this.luong * this.soNgay * m[idx][0] * 1000;
+            luong *= a[idx][0];
         else if(nam <= 8)
-            return this.luong * this.soNgay * m[idx][1] * 1000;
+            luong *= a[idx][1];
         else if(nam <= 15)
-            return this.luong * this.soNgay * m[idx][2] * 1000;
-        return this.luong * this.soNgay * m[idx][3] * 1000;
+            luong *= a[idx][2];
+        else 
+            luong *= a[idx][3];
+        return luong * 1000;
     }
 
     @Override
     public String toString() {
-        return this.id + " " + this.ten + " " + this.tenPB + " " + this.getLuong();
+        return String.format("%s %s %s %.0f", this.id, this.ten, 
+                            this.tenPhong, this.getLuong());
     }
 }
 
@@ -76,36 +91,28 @@ public class TinhLuong {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        ArrayList<PhongBan> p = new ArrayList<>();
-        ArrayList<NhanVien> a = new ArrayList<>();
+        ArrayList<Phong> aP = new ArrayList<>();
         sc.nextLine();
         for(int i=0; i<n; i++){
-            String[] s = sc.nextLine().split("\\s+");
-            String id = s[0];
-            String tenPhong = "";
-            for(int j=1; j<s.length; j++){
-                tenPhong += s[j] + " ";
-            }
-            p.add(new PhongBan(id, tenPhong.trim()));
+            aP.add(new Phong(sc.next(), sc.nextLine().trim()));
         }
+        
         int m = sc.nextInt();
+        ArrayList<NhanVien> aN = new ArrayList<>();
         for(int i=0; i<m; i++){
             sc.nextLine();
-            String id = sc.nextLine();
-            String ten = sc.nextLine();
-            int luong = sc.nextInt();
-            int soNgay = sc.nextInt();
-            NhanVien x = new NhanVien(id, ten, luong, soNgay);
-            for(PhongBan j : p){
-                if(j.getId().equals(id.substring(3))){
-                    x.setTenPB(j.getTenPhong());
+            NhanVien x = new NhanVien(sc.nextLine(), sc.nextLine(), sc.nextDouble(), sc.nextDouble(), "", "");
+            for(Phong j : aP){
+                if(x.getId().substring(3).equals(j.getIdPhong())){
+                    x.setIdPhong(j.getIdPhong());
+                    x.setTenPhong(j.getTenPhong());
                     break;
                 }
             }
-            a.add(x);
+            aN.add(x);
         }
-        for(NhanVien i : a){
-            System.out.println(i );
+        for(NhanVien i : aN){
+            System.out.println(i);
         }
     }
 }
